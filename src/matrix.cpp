@@ -1,4 +1,5 @@
 #include "../include/matrix.h"
+
 #include <iostream>
 #include <stdexcept>
 
@@ -35,6 +36,63 @@ float Matrix::operator()(int row, int col) const
     }
 
     return data[row * cols + col];
+}
+
+Matrix Matrix::operator+(const Matrix& other) const
+{
+    if (rows != other.rows || cols != other.cols)
+    {
+        throw std::invalid_argument(
+            "Matrix dimensions must match for addition");
+    }
+
+    Matrix result(rows, cols);
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            result(i, j) = (*this)(i, j) + other(i, j);
+        }
+    }
+
+    return result;
+}
+
+Matrix Matrix::operator-(const Matrix& other) const
+{
+    if (rows != other.rows || cols != other.cols)
+    {
+        throw std::invalid_argument(
+            "Matrix dimensions must match for subtraction");
+    }
+
+    Matrix result(rows, cols);
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            result(i, j) = (*this)(i, j) - other(i, j);
+        }
+    }
+
+    return result;
+}
+
+Matrix Matrix::operator*(float scalar) const
+{
+    Matrix result(rows, cols);
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            result(i, j) = (*this)(i, j) * scalar;
+        }
+    }
+
+    return result;
 }
 
 void Matrix::print() const
