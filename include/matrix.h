@@ -20,6 +20,12 @@ public:
     float operator()(int row, int col) const;
 
     void print() const;
+
+    Matrix operator+(const Matrix& other) const;
+
+    Matrix operator-(const Matrix& other) const;
+
+    Matrix operator*(float scalar) const;
 };
 
 #endif
