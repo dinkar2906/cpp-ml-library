@@ -95,6 +95,34 @@ Matrix Matrix::operator*(float scalar) const
     return result;
 }
 
+Matrix Matrix::matmul(const Matrix& other) const
+{
+    if (cols != other.rows)
+    {
+        throw std::invalid_argument(
+            "Invalid dimensions for matrix multiplication");
+    }
+
+    Matrix result(rows, other.cols);
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < other.cols; j++)
+        {
+            float sum = 0.0f;
+
+            for (int k = 0; k < cols; k++)
+            {
+                sum += (*this)(i, k) * other(k, j);
+            }
+
+            result(i, j) = sum;
+        }
+    }
+
+    return result;
+}
+
 void Matrix::print() const
 {
     for (int i = 0; i < rows; i++)
@@ -106,4 +134,6 @@ void Matrix::print() const
 
         std::cout << '\n';
     }
+
+
 }

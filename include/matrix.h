@@ -25,6 +25,8 @@ public:
 
     Matrix operator-(const Matrix& other) const;
 
+    Matrix matmul(const Matrix& other) const;
+
     Matrix operator*(float scalar) const;
 };
 
