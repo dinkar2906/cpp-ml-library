@@ -21,12 +21,13 @@ int Matrix::getCols() const
 float& Matrix::operator()(int row, int col)
 {
     if (row < 0 || row >= rows || col < 0 || col >= cols)
-    {
+    {   
         throw std::out_of_range("Matrix index out of range");
     }
 
     return data[row * cols + col];
 }
+
 
 float Matrix::operator()(int row, int col) const
 {
