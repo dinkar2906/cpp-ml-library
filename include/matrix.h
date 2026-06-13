@@ -20,7 +20,7 @@ public:
     float operator()(int row, int col) const;
 
     void print() const;
-
+    void randomize(float min, float max);
     Matrix operator+(const Matrix& other) const;
 
     Matrix operator-(const Matrix& other) const;

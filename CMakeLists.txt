@@ -11,4 +11,5 @@ add_executable(
     cppml
     src/main.cpp
     src/matrix.cpp
+    src/tensor.cpp
 )
