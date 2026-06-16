@@ -17,10 +17,21 @@ public:
     const std::vector<int>& getShape() const;
 
     int size() const;
+    
+    bool sameShape(const Tensor& other) const;
+
+    Tensor operator+(const Tensor& other) const;
+
+
+    Tensor operator-(const Tensor& other) const;
+
+    Tensor operator*(float scalar) const;
+
 
     float& operator[](int index);
 
     float operator[](int index) const;
+
 
     void printShape() const;
 };

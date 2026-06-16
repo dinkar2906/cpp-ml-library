@@ -55,7 +55,7 @@ float Tensor::operator[](int index) const
 
 void Tensor::printShape() const
 {
-    std::cout << "Shape: (";
+    std::cout << "Shape";
 
     for (size_t i = 0; i < shape.size(); i++)
     {
