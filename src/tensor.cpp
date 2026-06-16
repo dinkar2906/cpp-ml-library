@@ -33,11 +33,78 @@ int Tensor::size() const
     return data.size();
 }
 
+void Tensor::reshape(const std::vector<int>& newShape)
+{
+    int newSize = getTotalSize(newShape);
+
+    if (newSize != size())
+    {
+        throw std::invalid_argument(
+            "Cannot reshape tensor: total number of elements must remain the same");
+    }
+
+    shape = newShape;
+}
+
+bool Tensor::sameShape(const Tensor& other) const
+{
+    return shape == other.shape;
+}
+
+Tensor Tensor::operator+(const Tensor& other) const
+{
+    if (!sameShape(other))
+    {
+        throw std::invalid_argument(
+            "Tensor shapes must match for addition");
+    }
+
+    Tensor result(shape);
+
+    for (int i = 0; i < size(); i++)
+    {
+        result[i] = data[i] + other[i];
+    }
+
+    return result;
+}
+
+Tensor Tensor::operator-(const Tensor& other) const
+{
+    if (!sameShape(other))
+    {
+        throw std::invalid_argument(
+            "Tensor shapes must match for subtraction");
+    }
+
+    Tensor result(shape);
+
+    for (int i = 0; i < size(); i++)
+    {
+        result[i] = data[i] - other[i];
+    }
+
+    return result;
+}
+
+Tensor Tensor::operator*(float scalar) const
+{
+    Tensor result(shape);
+
+    for (int i = 0; i < size(); i++)
+    {
+        result[i] = data[i] * scalar;
+    }
+
+    return result;
+}
+
 float& Tensor::operator[](int index)
 {
     if (index < 0 || index >= size())
     {
-        throw std::out_of_range("Tensor index out of range");
+        throw std::out_of_range(
+            "Tensor index out of range");
     }
 
     return data[index];
@@ -47,7 +114,8 @@ float Tensor::operator[](int index) const
 {
     if (index < 0 || index >= size())
     {
-        throw std::out_of_range("Tensor index out of range");
+        throw std::out_of_range(
+            "Tensor index out of range");
     }
 
     return data[index];
@@ -55,7 +123,7 @@ float Tensor::operator[](int index) const
 
 void Tensor::printShape() const
 {
-    std::cout << "Shape";
+    std::cout << "Shape: (";
 
     for (size_t i = 0; i < shape.size(); i++)
     {

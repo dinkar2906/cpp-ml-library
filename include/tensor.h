@@ -17,7 +17,9 @@ public:
     const std::vector<int>& getShape() const;
 
     int size() const;
-    
+
+    void reshape(const std::vector<int>& newShape);
+
     bool sameShape(const Tensor& other) const;
 
     Tensor operator+(const Tensor& other) const;
