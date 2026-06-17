@@ -33,6 +33,8 @@ public:
 
     void reshape(const std::vector<int>& newShape);
 
+    void randomize(float min, float max);
+
     bool sameShape(const Tensor& other) const;
 
     Tensor operator+(const Tensor& other) const;
