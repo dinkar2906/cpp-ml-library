@@ -11,12 +11,25 @@ private:
 
     int getTotalSize(const std::vector<int>& shape) const;
 
+    int getFlatIndex(
+        const std::vector<int>& indices
+    ) const;
+
 public:
     Tensor(const std::vector<int>& shape);
 
     const std::vector<int>& getShape() const;
 
     int size() const;
+
+    float& at(
+        const std::vector<int>& indices
+    );
+
+    float at(
+        const std::vector<int>& indices
+    ) const;
+
 
     void reshape(const std::vector<int>& newShape);
 
