@@ -17,10 +17,47 @@ int Tensor::getTotalSize(const std::vector<int>& shape) const
 
     for (int dim : shape)
     {
+        if (dim <= 0)
+        {
+            throw std::invalid_argument(
+                "Tensor dimensions must be positive");
+        }
+
         totalSize *= dim;
     }
 
     return totalSize;
+}
+
+int Tensor::getFlatIndex(
+    const std::vector<int>& indices
+) const
+{
+    if (indices.size() != shape.size())
+    {
+        throw std::invalid_argument(
+            "Incorrect number of indices");
+    }
+
+    int flatIndex = 0;
+    int stride = 1;
+
+    for (int i = static_cast<int>(shape.size()) - 1;
+         i >= 0;
+         i--)
+    {
+        if (indices[i] < 0 ||
+            indices[i] >= shape[i])
+        {
+            throw std::out_of_range(
+                "Tensor index out of range");
+        }
+
+        flatIndex += indices[i] * stride;
+        stride *= shape[i];
+    }
+
+    return flatIndex;
 }
 
 const std::vector<int>& Tensor::getShape() const
@@ -30,10 +67,11 @@ const std::vector<int>& Tensor::getShape() const
 
 int Tensor::size() const
 {
-    return data.size();
+    return static_cast<int>(data.size());
 }
 
-void Tensor::reshape(const std::vector<int>& newShape)
+void Tensor::reshape(
+    const std::vector<int>& newShape)
 {
     int newSize = getTotalSize(newShape);
 
@@ -46,12 +84,14 @@ void Tensor::reshape(const std::vector<int>& newShape)
     shape = newShape;
 }
 
-bool Tensor::sameShape(const Tensor& other) const
+bool Tensor::sameShape(
+    const Tensor& other) const
 {
     return shape == other.shape;
 }
 
-Tensor Tensor::operator+(const Tensor& other) const
+Tensor Tensor::operator+(
+    const Tensor& other) const
 {
     if (!sameShape(other))
     {
@@ -69,7 +109,8 @@ Tensor Tensor::operator+(const Tensor& other) const
     return result;
 }
 
-Tensor Tensor::operator-(const Tensor& other) const
+Tensor Tensor::operator-(
+    const Tensor& other) const
 {
     if (!sameShape(other))
     {
@@ -87,7 +128,8 @@ Tensor Tensor::operator-(const Tensor& other) const
     return result;
 }
 
-Tensor Tensor::operator*(float scalar) const
+Tensor Tensor::operator*(
+    float scalar) const
 {
     Tensor result(shape);
 
@@ -101,7 +143,8 @@ Tensor Tensor::operator*(float scalar) const
 
 float& Tensor::operator[](int index)
 {
-    if (index < 0 || index >= size())
+    if (index < 0 ||
+        index >= size())
     {
         throw std::out_of_range(
             "Tensor index out of range");
@@ -112,7 +155,8 @@ float& Tensor::operator[](int index)
 
 float Tensor::operator[](int index) const
 {
-    if (index < 0 || index >= size())
+    if (index < 0 ||
+        index >= size())
     {
         throw std::out_of_range(
             "Tensor index out of range");
@@ -121,11 +165,25 @@ float Tensor::operator[](int index) const
     return data[index];
 }
 
+float& Tensor::at(
+    const std::vector<int>& indices)
+{
+    return data[getFlatIndex(indices)];
+}
+
+float Tensor::at(
+    const std::vector<int>& indices) const
+{
+    return data[getFlatIndex(indices)];
+}
+
 void Tensor::printShape() const
 {
     std::cout << "Shape: (";
 
-    for (size_t i = 0; i < shape.size(); i++)
+    for (size_t i = 0;
+         i < shape.size();
+         i++)
     {
         std::cout << shape[i];
 
