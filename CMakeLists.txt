@@ -12,4 +12,5 @@ add_executable(
     src/main.cpp
     src/matrix.cpp
     src/tensor.cpp
+    src/linear.cpp
 )

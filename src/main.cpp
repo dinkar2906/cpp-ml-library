@@ -1,30 +1,22 @@
-#include "../include/tensor.h"
+#include "../include/linear.h"
 
 #include <iostream>
 
 int main()
 {
-    Tensor A({2, 3});
+    Linear fc1(4, 3);
 
-    for (int i = 0; i < A.size(); i++)
-    {
-        A[i] = i + 1;
-    }
+    Tensor input({1, 4});
 
-    Tensor B = A * 2.0f;
+    input.at({0,0}) = 1;
+    input.at({0,1}) = 2;
+    input.at({0,2}) = 3;
+    input.at({0,3}) = 4;
 
-    A.printShape();
+    Tensor output =
+        fc1.forward(input);
 
-    for (int i = 0; i < B.size(); i++)
-    {
-        std::cout << B[i] << " ";
-    }
-
-    std::cout << '\n';
-
-    B.reshape({3, 2});
-
-    B.printShape();
+    output.printShape();
 
     return 0;
 }

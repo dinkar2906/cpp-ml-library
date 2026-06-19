@@ -3,6 +3,8 @@
 #include <iostream>
 #include <stdexcept>
 
+#include<random>
+
 Tensor::Tensor(const std::vector<int>& shape)
     : shape(shape)
 {
@@ -236,4 +238,24 @@ void Tensor::printShape() const
     }
 
     std::cout << ")\n";
+}
+
+void Tensor::randomize(float min, float max)
+{
+    if (min > max)
+    {
+        throw std::invalid_argument(
+            "Minimum value cannot be greater than maximum value");
+    }
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_real_distribution<float>
+        dist(min, max);
+
+    for (int i = 0; i < size(); i++)
+    {
+        data[i] = dist(gen);
+    }
 }
