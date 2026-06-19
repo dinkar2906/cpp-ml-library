@@ -177,6 +177,48 @@ float Tensor::at(
     return data[getFlatIndex(indices)];
 }
 
+
+Tensor Tensor::matmul(const Tensor& other) const
+{
+    if (shape.size() != 2 || other.shape.size() != 2)
+    {
+        throw std::invalid_argument(
+            "Tensor matmul currently supports only 2D tensors");
+    }
+
+    int rowsA = shape[0];
+    int colsA = shape[1];
+
+    int rowsB = other.shape[0];
+    int colsB = other.shape[1];
+
+    if (colsA != rowsB)
+    {
+        throw std::invalid_argument(
+            "Invalid dimensions for tensor matrix multiplication");
+    }
+
+    Tensor result({rowsA, colsB});
+
+    for (int i = 0; i < rowsA; i++)
+    {
+        for (int j = 0; j < colsB; j++)
+        {
+            float sum = 0.0f;
+
+            for (int k = 0; k < colsA; k++)
+            {
+                sum += at({i, k}) * other.at({k, j});
+            }
+
+            result.at({i, j}) = sum;
+        }
+    }
+
+    return result;
+}
+
+
 void Tensor::printShape() const
 {
     std::cout << "Shape: (";
