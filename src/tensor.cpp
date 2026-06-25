@@ -11,6 +11,8 @@ Tensor::Tensor(const std::vector<int>& shape)
     int totalSize = getTotalSize(shape);
 
     data.resize(totalSize, 0.0f);
+
+    grad.resize(totalSize, 0.0f);
 }
 
 int Tensor::getTotalSize(const std::vector<int>& shape) const
@@ -257,5 +259,23 @@ void Tensor::randomize(float min, float max)
     for (int i = 0; i < size(); i++)
     {
         data[i] = dist(gen);
+    }
+}
+
+std::vector<float>& Tensor::gradients()
+{
+    return grad;
+}
+
+const std::vector<float>& Tensor::gradients() const
+{
+    return grad;
+}
+
+void Tensor::zeroGrad()
+{
+    for (int i = 0; i < size(); i++)
+    {
+        grad[i] = 0.0f;
     }
 }

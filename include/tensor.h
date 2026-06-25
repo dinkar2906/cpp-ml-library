@@ -9,6 +9,8 @@ private:
     std::vector<int> shape;
     std::vector<float> data;
 
+    std::vector<float> grad;
+
     int getTotalSize(const std::vector<int>& shape) const;
 
     int getFlatIndex(
@@ -16,6 +18,15 @@ private:
     ) const;
 
 public:
+
+
+    std::vector<float>& gradients();
+
+    const std::vector<float>& gradients() const;
+
+    void zeroGrad();
+
+
     Tensor(const std::vector<int>& shape);
 
     const std::vector<int>& getShape() const;
